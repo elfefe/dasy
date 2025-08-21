@@ -1,0 +1,36 @@
+# AI and ML libraries
+openai==1.3.7
+google-generativeai==0.3.2
+anthropic==0.7.8
+
+# Core dependencies
+pika==1.3.2
+requests==2.31.0
+python-dotenv==1.0.0
+pydantic==2.5.0
+jinja2==3.1.2
+
+# Development tools
+GitPython==3.1.40
+PyGithub==2.1.1
+docker==6.1.3
+
+# Utilities
+click==8.1.7
+colorama==0.4.6
+tqdm==4.66.1
+tenacity==8.2.3
+
+# Testing and quality
+pytest==7.4.3
+black==23.11.0
+flake8==6.1.0
+mypy==1.7.1
+
+# Logging and monitoring
+structlog==23.2.0
+psutil==5.9.6
+
+# Web frameworks for API endpoints
+fastapi==0.104.1
+uvicorn==0.24.0
