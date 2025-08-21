@@ -5,11 +5,15 @@
 
 set -e
 
+
 # Variables
 REPO_URL="https://github.com/elfefe/dasy"
 TMP_DIR=$(mktemp -d)
 DOCKER_COMPOSE_FILE="docker-compose.yaml"
-INSTALL_DIR="$HOME/dasy"
+
+# Demander à l'utilisateur le répertoire d'installation final
+read -p "Répertoire d'installation final [${HOME}/dasy]: " INSTALL_DIR
+INSTALL_DIR=${INSTALL_DIR:-$HOME/dasy}
 
 echo "🚀 Dasy Installer - Autonomous Software Development System"
 echo "========================================================"
