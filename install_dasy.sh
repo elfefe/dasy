@@ -58,45 +58,72 @@ if [ ! -f "docker-compose.yaml" ]; then
     # The docker-compose.yaml will be created by our installer
 fi
 
-# Check for .env file
+
+# Création interactive du fichier .env si absent
 if [ ! -f ".env" ]; then
-    echo "📝 Creating .env configuration file..."
-    cat > .env << 'EOF'
+    echo "📝 Création du fichier .env via saisie interactive..."
+
+    read -p "DOCKPLOY_API_KEY (Dokploy): " DOCKPLOY_API_KEY
+    read -p "DOCKPLOY_URL [https://your-dokploy-instance.com]: " DOCKPLOY_URL
+    DOCKPLOY_URL=${DOCKPLOY_URL:-https://your-dokploy-instance.com}
+
+    read -p "CLOUDFLARE_TUNNEL_TOKEN (Cloudflare Tunnel): " CLOUDFLARE_TUNNEL_TOKEN
+
+    read -p "OPENAI_API_KEY (OpenAI): " OPENAI_API_KEY
+    read -p "GEMINI_API_KEY (Gemini): " GEMINI_API_KEY
+
+    read -p "POSTGRES_PASSWORD [dasy_secure_password_123]: " POSTGRES_PASSWORD
+    POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-dasy_secure_password_123}
+    read -p "POSTGRES_USER [dasy]: " POSTGRES_USER
+    POSTGRES_USER=${POSTGRES_USER:-dasy}
+    read -p "POSTGRES_DB [dasy]: " POSTGRES_DB
+    POSTGRES_DB=${POSTGRES_DB:-dasy}
+
+    read -p "RABBITMQ_DEFAULT_USER [dasy]: " RABBITMQ_DEFAULT_USER
+    RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER:-dasy}
+    read -p "RABBITMQ_DEFAULT_PASS [dasy_rabbitmq_pass_123]: " RABBITMQ_DEFAULT_PASS
+    RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS:-dasy_rabbitmq_pass_123}
+
+    read -p "ORCHESTRATOR_PORT [8000]: " ORCHESTRATOR_PORT
+    ORCHESTRATOR_PORT=${ORCHESTRATOR_PORT:-8000}
+    read -p "GITHUB_WEBHOOK_SECRET: " GITHUB_WEBHOOK_SECRET
+
+    read -p "JWT_SECRET_KEY [dasy_jwt_secret_key_change_this_in_production]: " JWT_SECRET_KEY
+    JWT_SECRET_KEY=${JWT_SECRET_KEY:-dasy_jwt_secret_key_change_this_in_production}
+
+    cat > .env <<EOF
 # Dasy Environment Configuration
-# Fill in your API keys and tokens below
+# Rempli via install_dasy.sh
 
 # Dokploy Configuration
-DOCKPLOY_API_KEY=your_dokploy_api_key_here
-DOCKPLOY_URL=https://your-dokploy-instance.com
+DOCKPLOY_API_KEY=$DOCKPLOY_API_KEY
+DOCKPLOY_URL=$DOCKPLOY_URL
 
 # Cloudflare Tunnel Configuration
-CLOUDFLARE_TUNNEL_TOKEN=your_cloudflare_tunnel_token_here
+CLOUDFLARE_TUNNEL_TOKEN=$CLOUDFLARE_TUNNEL_TOKEN
 
 # AI API Keys
-OPENAI_API_KEY=your_openai_api_key_here
-GEMINI_API_KEY=your_gemini_api_key_here
+OPENAI_API_KEY=$OPENAI_API_KEY
+GEMINI_API_KEY=$GEMINI_API_KEY
 
 # Database Configuration
-POSTGRES_PASSWORD=dasy_secure_password_123
-POSTGRES_USER=dasy
-POSTGRES_DB=dasy
+POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+POSTGRES_USER=$POSTGRES_USER
+POSTGRES_DB=$POSTGRES_DB
 
 # RabbitMQ Configuration
-RABBITMQ_DEFAULT_USER=dasy
-RABBITMQ_DEFAULT_PASS=dasy_rabbitmq_pass_123
+RABBITMQ_DEFAULT_USER=$RABBITMQ_DEFAULT_USER
+RABBITMQ_DEFAULT_PASS=$RABBITMQ_DEFAULT_PASS
 
 # Application Configuration
-ORCHESTRATOR_PORT=8000
-GITHUB_WEBHOOK_SECRET=your_github_webhook_secret_here
+ORCHESTRATOR_PORT=$ORCHESTRATOR_PORT
+GITHUB_WEBHOOK_SECRET=$GITHUB_WEBHOOK_SECRET
 
 # JWT Configuration for agents
-JWT_SECRET_KEY=dasy_jwt_secret_key_change_this_in_production
+JWT_SECRET_KEY=$JWT_SECRET_KEY
 EOF
-    echo "⚠️  Please edit .env file with your API keys before proceeding!"
-    echo "   - DOCKPLOY_API_KEY: Get from your Dokploy instance"
-    echo "   - CLOUDFLARE_TUNNEL_TOKEN: Get from Cloudflare Dashboard"
-    echo "   - OPENAI_API_KEY: Get from OpenAI Dashboard"
-    echo "   - GEMINI_API_KEY: Get from Google AI Studio"
+
+    echo "✅ Fichier .env créé avec succès."
 fi
 
 # Load environment variables
